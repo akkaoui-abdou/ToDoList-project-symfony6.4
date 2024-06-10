@@ -1,0 +1,79 @@
+
+{% extends "base.html.twig" %}
+
+
+
+
+{% block body %}
+<div class="row">
+    <div class="col-md-8">
+
+    <h1>Create Task</h1>
+        
+<a href="{{ path("task_create-task")}}"><button type="button" class="btn btn-success">Create Task</button></a>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Titre</th>
+      <th scope="col">Description</th>
+      <th scope="col">Date début</th>
+      <th scope="col">Date fin</th>
+      <th scope="col">Status</th>
+      <th scope="col">Update</th>
+      <th scope="col">Dalate</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for task in pagination %}
+    <tr>
+      <td>{{ task.title }}</td>
+      <td>{{ task.description }}</td>
+      <td>{{ task.startDate|date('d/m/Y H:i:s')  }}</td>
+      <td>{{ task.endDate|date('d/m/Y H:i:s')  }}</td>
+      <td>{{ task.status }}</td>
+      <td><a href="{{ path("task_edit-task", {id: task.id})}}"><button type="button" class="btn btn-success">Edit</button></a></td>
+      <td><a href="{{ path("task_delete-task", {id: task.id})}}"><button type="button" class="btn btn-danger">Delete</button></a></td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+
+
+
+<nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if pagination.currentPageNumber > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': pagination.currentPageNumber - 1})) }}">Previous</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+            {% endif %}
+
+            {% for page in 1..pagination.pageCount %}
+                <li class="page-item {{ pagination.currentPageNumber == page ? 'active' : '' }}">
+                    <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': page})) }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+
+            {% if pagination.currentPageNumber < pagination.pageCount %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': pagination.currentPageNumber + 1})) }}">Next</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+        
+    </div>
+
+</div>
+
+{% endblock %}

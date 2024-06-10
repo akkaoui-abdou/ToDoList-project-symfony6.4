@@ -1,0 +1,24 @@
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% extends "base.html.twig" %}
+
+
+
+
+{% block body %}
+<div class="row">
+    <div class="col-md-8">
+
+    <h1>Edit Task</h1>
+        
+
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+
+        
+    </div>
+
+</div>
+
+{% endblock %}
